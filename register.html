@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -6,7 +6,6 @@
   <title>Register - Family Website</title>
   <link rel="stylesheet" href="style.css">
   <style>
-    /* Minimal inline CSS for form layout */
     body {
       font-family: Arial, sans-serif;
       background: #f0f4f8;
@@ -99,18 +98,28 @@
   <div class="auth-container">
     <h2>Create Account</h2>
     <form id="registerForm">
+      <!-- First Name -->
       <label for="firstname">First Name</label>
       <input type="text" id="firstname" name="firstname" required>
 
+      <!-- 👇 Family Calling Name (Unique) -->
+      <label for="familyname">Family Name (Calling Name)</label>
+      <input type="text" id="familyname" name="familyname" required>
+      <!-- 👆 Added between First Name and Email -->
+
+      <!-- Email -->
       <label for="email">Email</label>
       <input type="email" id="email" name="email" required>
 
+      <!-- Phone -->
       <label for="phone">Phone Number</label>
       <input type="tel" id="phone" name="phone" required>
 
+      <!-- Password -->
       <label for="password">Create Password</label>
       <input type="password" id="password" name="password" required>
 
+      <!-- Confirm Password -->
       <label for="confirm">Confirm Password</label>
       <input type="password" id="confirm" name="confirm" required>
       
@@ -126,28 +135,35 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault(); // prevent actual form submission
 
-      // Validate password match
+      // Get input values
+      const firstname = document.getElementById('firstname').value.trim();
+      const familyname = document.getElementById('familyname').value.trim().toLowerCase();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
       const password = document.getElementById('password').value;
       const confirm = document.getElementById('confirm').value;
-      if(password !== confirm) {
+
+      // Allowed family calling names
+      const allowedNames = ["kamoing", "chemwambakei", "kenduiywa", "chelogam", "tapnyapii"];
+
+      // Check if familyname is in allowed list
+      if (!allowedNames.includes(familyname)) {
+        alert("Sorry, only family members with approved calling names can register.");
+        return;
+      }
+
+      // Check password match
+      if (password !== confirm) {
         alert("Passwords do not match!");
         return;
       }
 
-      // Get user data (simulate saving)
-      const user = {
-        firstname: document.getElementById('firstname').value,
-        email: document.getElementById('email').value,
-        phone: document.getElementById('phone').value,
-        password: password
-      };
-
-      // Save to localStorage (simulate registration)
-      localStorage.setItem('user', JSON.stringify(user));
+      // Save user (simulate database)
+      let users = JSON.parse(localStorage.getItem('users')) || [];
+      users.push({ firstname, familyname, email, phone, password });
+      localStorage.setItem('users', JSON.stringify(users));
 
       alert("Registration successful! You can now login.");
-
-      // Redirect to login page
       window.location.href = "login.html";
     });
   </script>
