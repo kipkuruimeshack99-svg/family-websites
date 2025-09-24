@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -56,7 +56,7 @@
       display: block;
       margin: 10px 0 5px;
     }
-    input {
+    input, select {
       width: 100%;
       padding: 10px;
       margin-bottom: 10px;
@@ -98,30 +98,35 @@
   <div class="auth-container">
     <h2>Create Account</h2>
     <form id="registerForm">
-      <!-- First Name -->
       <label for="firstname">First Name</label>
       <input type="text" id="firstname" name="firstname" required>
 
-      <!-- 👇 Family Calling Name (Unique) -->
+      <label for="surname">Surname</label>
+      <input type="text" id="surname" name="surname" required>
+
       <label for="familyname">Family Name (Calling Name)</label>
       <input type="text" id="familyname" name="familyname" required>
-      <!-- 👆 Added between First Name and Email -->
 
-      <!-- Email -->
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
+      <label for="email">Email (optional)</label>
+      <input type="email" id="email" name="email">
 
-      <!-- Phone -->
       <label for="phone">Phone Number</label>
       <input type="tel" id="phone" name="phone" required>
 
-      <!-- Password -->
       <label for="password">Create Password</label>
       <input type="password" id="password" name="password" required>
 
-      <!-- Confirm Password -->
       <label for="confirm">Confirm Password</label>
       <input type="password" id="confirm" name="confirm" required>
+
+      <label for="category">Category</label>
+      <select id="category" name="category" required>
+        <option value="">-- Select Category --</option>
+        <option value="unemployed">Unemployed (Looking for Job)</option>
+        <option value="student">Student</option>
+        <option value="employed">Employed</option>
+        <option value="other">Other</option>
+      </select>
       
       <button type="submit" class="btn">Submit</button>
     </form>
@@ -133,40 +138,37 @@
     const form = document.getElementById('registerForm');
 
     form.addEventListener('submit', function(e) {
-      e.preventDefault(); // prevent actual form submission
+      e.preventDefault(); 
 
-      // Get input values
       const firstname = document.getElementById('firstname').value.trim();
+      const surname = document.getElementById('surname').value.trim();
       const familyname = document.getElementById('familyname').value.trim().toLowerCase();
-      const email = document.getElementById('email').value.trim();
+      const email = document.getElementById('email').value.trim(); // optional
       const phone = document.getElementById('phone').value.trim();
       const password = document.getElementById('password').value;
       const confirm = document.getElementById('confirm').value;
+      const category = document.getElementById('category').value;
 
-      // Allowed family calling names
       const allowedNames = ["kamoing", "chemwambakei", "kenduiywa", "chelogam", "tapnyapii"];
 
-      // Check if familyname is in allowed list
       if (!allowedNames.includes(familyname)) {
         alert("Sorry, only family members with approved calling names can register.");
         return;
       }
 
-      // Check password match
       if (password !== confirm) {
         alert("Passwords do not match!");
         return;
       }
 
-      // Save user (simulate database)
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      users.push({ firstname, familyname, email, phone, password });
-      localStorage.setItem('users', JSON.stringify(users));
+      // Save user to localStorage (email can be empty)
+      let allUsers = JSON.parse(localStorage.getItem("allUsers")) || [];
+      allUsers.push({ firstname, surname, familyname, email: email || null, phone, password, category });
+      localStorage.setItem("allUsers", JSON.stringify(allUsers));
 
       alert("Registration successful! You can now login.");
-      window.location.href = "login.html";
+      window.location.href = "login.html"; 
     });
   </script>
 </body>
 </html>
-
