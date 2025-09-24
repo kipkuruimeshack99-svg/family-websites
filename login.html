@@ -1,9 +1,9 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - Family Website</title>
+  <title>Login - Family Website</title>
   <link rel="stylesheet" href="style.css">
   <style>
     body {
@@ -86,85 +86,62 @@
 </head>
 <body>
   <header>
-    <nav>
-      <h1 class="logo">Welcome to our Family Website</h1>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="login.html" class="btn">Login</a></li>
-      </ul>
-    </nav>
-  </header>
+  <nav>
+    <h1 class="logo">Family Website</h1>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="login.html" class="btn">Login</a></li>
+      <li><a href="register.html" class="btn">Register</a></li>
+    </ul>
+  </nav>
+</header>
 
   <div class="auth-container">
-    <h2>Create Account</h2>
-    <form id="registerForm">
-      <!-- First Name -->
-      <label for="firstname">First Name</label>
-      <input type="text" id="firstname" name="firstname" required>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <!-- 👇 Added family calling name -->
+      <label for="familyname">Family Calling Name</label>
+      <input type="text" id="familyname" name="familyname" placeholder="Enter family calling name" required>
 
-      <!-- 👇 Family Calling Name (Unique) -->
-      <label for="familyname">Family Name (Calling Name)</label>
-      <input type="text" id="familyname" name="familyname" required>
-      <!-- 👆 Added between First Name and Email -->
-
-      <!-- Email -->
       <label for="email">Email</label>
-      <input type="email" id="email" name="email" required>
+      <input type="email" id="email" name="email" placeholder="Enter your email" required>
 
-      <!-- Phone -->
-      <label for="phone">Phone Number</label>
-      <input type="tel" id="phone" name="phone" required>
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
-      <!-- Password -->
-      <label for="password">Create Password</label>
-      <input type="password" id="password" name="password" required>
+      <button type="submit" class="btn">Login</button>
 
-      <!-- Confirm Password -->
-      <label for="confirm">Confirm Password</label>
-      <input type="password" id="confirm" name="confirm" required>
-      
-      <button type="submit" class="btn">Submit</button>
+      <p><a href="forgot.html">Forgot Password?</a></p>
+      <p>Don’t have an account? <a href="register.html">Register</a></p>
     </form>
-
-    <p>Already have an account? <a href="login.html">Login</a></p>
   </div>
 
   <script>
-    const form = document.getElementById('registerForm');
+    const loginForm = document.getElementById('loginForm');
 
-    form.addEventListener('submit', function(e) {
-      e.preventDefault(); // prevent actual form submission
+    loginForm.addEventListener('submit', function(e) {
+      e.preventDefault();
 
-      // Get input values
-      const firstname = document.getElementById('firstname').value.trim();
       const familyname = document.getElementById('familyname').value.trim().toLowerCase();
       const email = document.getElementById('email').value.trim();
-      const phone = document.getElementById('phone').value.trim();
       const password = document.getElementById('password').value;
-      const confirm = document.getElementById('confirm').value;
 
-      // Allowed family calling names
-      const allowedNames = ["kamoing", "chemwambakei", "kenduiywa", "chelogam", "tapnyapii"];
+      // Load registered users
+      const users = JSON.parse(localStorage.getItem('users')) || [];
 
-      // Check if familyname is in allowed list
-      if (!allowedNames.includes(familyname)) {
-        alert("Sorry, only family members with approved calling names can register.");
-        return;
+      // Find matching user
+      const user = users.find(u => 
+        u.familyname === familyname && 
+        u.email === email && 
+        u.password === password
+      );
+
+      if (user) {
+        alert("Login successful! Welcome " + user.firstname);
+        window.location.href = "index.html"; // redirect to homepage
+      } else {
+        alert("Invalid login details. Please try again.");
       }
-
-      // Check password match
-      if (password !== confirm) {
-        alert("Passwords do not match!");
-        return;
-      }
-
-      // Save user (simulate database)
-      let users = JSON.parse(localStorage.getItem('users')) || [];
-      users.push({ firstname, familyname, email, phone, password });
-      localStorage.setItem('users', JSON.stringify(users));
-
-      alert("Registration successful! You can now login.");
-      window.location.href = "login.html";
     });
   </script>
 </body>
