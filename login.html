@@ -1,148 +1,43 @@
-<!DOCTYPE html>
+<!DOCTYPE html>  
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login - Family Website</title>
   <link rel="stylesheet" href="style.css">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: linear-gradient(90deg, #007BFF, #00C6FF);
-      color: #fff;
-      padding: 10px 0;
-    }
-    nav {
-      width: 90%;
-      margin: auto;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    nav ul {
-      list-style: none;
-      display: flex;
-      gap: 15px;
-    }
-    nav ul li a {
-      color: #fff;
-      text-decoration: none;
-      padding: 6px 12px;
-      border-radius: 4px;
-    }
-    nav ul li a:hover {
-      background: rgba(255,255,255,0.2);
-    }
-    .auth-container {
-      width: 90%;
-      max-width: 400px;
-      margin: 50px auto;
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      color: #007BFF;
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin: 10px 0 5px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 12px;
-      margin-top: 10px;
-      background: linear-gradient(90deg, #007BFF, #00C6FF);
-      color: #fff;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
-    .btn:hover {
-      opacity: 0.9;
-    }
-    p {
-      text-align: center;
-      margin-top: 15px;
-    }
-  </style>
 </head>
 <body>
   <header>
-  <nav>
-    <h1 class="logo">Family Website</h1>
-    <ul class="nav-links">
-      <li><a href="index.html">Home</a></li>
-      <li><a href="login.html" class="btn">Login</a></li>
-      <li><a href="register.html" class="btn">Register</a></li>
-    </ul>
-  </nav>
-</header>
+    <nav>
+      <h1 class="logo">Family Website</h1>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="login.html" class="btn">Login</a></li>
+        <li><a href="register.html" class="btn">Register</a></li>
+      </ul>
+    </nav>
+  </header>
 
   <div class="auth-container">
     <h2>Login</h2>
-    <form id="loginForm">
-      <!-- 👇 Added family calling name -->
-      <label for="familyname">Family Calling Name</label>
-      <input type="text" id="familyname" name="familyname" placeholder="Enter family calling name" required>
+    <!-- You can change action to "login.php" later if using backend -->
+    <form action="index.html" method="get">
+      
+      <!-- Email or Surname -->
+      <label for="userInput">Email / Surname</label>
+      <input type="text" id="userInput" name="userInput" placeholder="Enter your email or surname" required>
 
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="Enter your email" required>
-
+      <!-- Password -->
       <label for="password">Password</label>
       <input type="password" id="password" name="password" placeholder="Enter your password" required>
 
+      <!-- Submit -->
       <button type="submit" class="btn">Login</button>
 
-      <p><a href="forgot.html">Forgot Password?</a></p>
+      <!-- Links -->
+      <p><a href="forgotpassword.html">Forgot Password?</a></p>
       <p>Don’t have an account? <a href="register.html">Register</a></p>
     </form>
   </div>
-
-  <script>
-    const loginForm = document.getElementById('loginForm');
-
-    loginForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-
-      const familyname = document.getElementById('familyname').value.trim().toLowerCase();
-      const email = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-
-      // Load registered users
-      const users = JSON.parse(localStorage.getItem('users')) || [];
-
-      // Find matching user
-      const user = users.find(u => 
-        u.familyname === familyname && 
-        u.email === email && 
-        u.password === password
-      );
-
-      if (user) {
-        alert("Login successful! Welcome " + user.firstname);
-        window.location.href = "index.html"; // redirect to homepage
-      } else {
-        alert("Invalid login details. Please try again.");
-      }
-    });
-  </script>
 </body>
 </html>
